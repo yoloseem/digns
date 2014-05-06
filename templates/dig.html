@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>dig nameservers</title>
+    <link rel="stylesheet"
+          href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
+    <style type="text/css">
+      html,
+      body {
+        height: 100%;
+        background-color: #333;
+      }
+      body {
+        color: #fff;
+        text-align: center;
+        text-shadow: 0 1px 3px rgba(0,0,0,.5);
+        box-shadow: inset 0 0 100px rgba(0,0,0,.5);
+      }
+      .content-wrapper {
+        display: table;
+        width: 100%;
+        height: 100%; /* For at least Firefox */
+        min-height: 100%;
+      }
+      .wrapper {
+        margin: auto;
+        max-width: 640px;
+        text-align: left;
+      }
+      .content {
+        padding: 20px;
+      }
+      ul.nameservers, input.domain, span.domain {
+        font-family: monospace;
+      }
+      ul.nameservers {
+        font-size: 1.5em;
+        list-style-type: square;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="wrapper">
+      <div class="content-wrapper">
+        <div class="content">
+          <h1>Dig your domain's nameservers.</h1>
+          <hr />
+          <form role="form" method="GET"
+                action="{{ url_for(request.endpoint) }}">
+            <div class="form-group">
+              <label for="inputDomain">Enter the domain to dig :</label>
+              <div class="input-group">
+                <input type="text" class="form-control domain"
+                       id="inputDomain" name="domain"
+                       placeholder="Enter domain">
+                <span class="input-group-btn">
+                  <button type="submit" class="btn btn-default">Dig</button>
+                </span>
+              </div>
+            </div>
+          </form>
+          {% if domain %}
+            <div class="result">
+              <hr />
+              <h3>Name servers of <span class="domain">{{ domain }}</span>:</h3>
+              {% if not error %}
+                <ul class="nameservers">
+                  {% for ns in nameservers %}
+                    <li>{{ ns }}</li>
+                  {% endfor %}
+                </ul>
+              {% else %}
+                Sorry. Error.
+              {% endif %}
+            </div>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  </body>
+</html
